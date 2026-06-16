@@ -1,0 +1,20 @@
+cookie:
+  expiry_days: 1
+  key: agentprocure_secret_2026
+  name: agentprocure_auth
+credentials:
+  usernames:
+    admin:
+      name: Admin User
+      password: $2b$12$t9PgflJqrYI9xEkPBeZ.R.xfOCt9h8z0sjy7KGjdQf7AA5FexGPsO
+      role: admin
+    buyer:
+      name: Procurement Buyer
+      password: $2b$12$a2SEwb/DyAelvPLvQJI8iOqfFOb/3kMzlGnYGlOHKKXNvNDtvEezC
+      role: buyer
+    viewer:
+      name: View Only
+      password: $2b$12$z/EAGsJK.1ZYSaUjDS03R.yyLJuGys/v2z/GoTExoj2cPKmvZewOu
+      role: viewer
+pre-authorized:
+  emails: []

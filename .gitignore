@@ -1,0 +1,51 @@
+# ─────────────────────────────────────────────────────────────
+# AgentProcure .gitignore
+# NOTE: figures/ and results/ are intentionally NOT ignored —
+#       project results and visualizations are committed.
+# ─────────────────────────────────────────────────────────────
+
+# --- Secrets / credentials ---
+.env
+.env *
+.env.*
+*.env
+secrets.*
+*.key
+*.pem
+
+# --- Python bytecode / caches ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# --- Virtual environments ---
+venv/
+env/
+.venv/
+ENV/
+
+# --- Editors / IDE ---
+.vscode/
+.idea/
+*.swp
+
+# --- OS clutter ---
+.DS_Store
+Thumbs.db
+
+# --- Local tool config ---
+.claude/
+
+# ─────────────────────────────────────────────────────────────
+# Deliberately KEPT (do not ignore):
+#   figures/        -> committed dashboard visualizations
+#   results/        -> committed result outputs / metrics
+#   data/external/  -> cached FRED commodity price series
+#   *.csv           -> BOM inputs & result CSVs are kept
+#   *.png / *.jpg   -> result graphs are kept
+#   auth_config.yaml-> kept per project owner's decision
+# ─────────────────────────────────────────────────────────────

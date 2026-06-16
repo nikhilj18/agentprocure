@@ -1,0 +1,34 @@
+# AgentProcure — Python dependencies
+# Generated from the project's actual imports (pinned to tested versions)
+
+# --- Web dashboard ---
+streamlit==1.56.0
+streamlit-authenticator==0.4.2
+plotly==6.6.0
+
+# --- Data & numerics ---
+pandas==3.0.2
+numpy==2.4.4
+scipy==1.17.1
+
+# --- Machine learning / forecasting ---
+scikit-learn==1.8.0        # Random Forest classifier, K-Means, SVM
+statsmodels==0.14.6        # time-series support
+pmdarima==2.1.1            # ARIMA price forecasting (auto_arima)
+
+# --- Database ---
+psycopg2-binary==2.9.11    # PostgreSQL driver
+
+# --- External APIs ---
+anthropic==0.87.0          # Claude API
+requests==2.33.1           # FRED API (commodity prices)
+
+# --- Mock ERP service ---
+fastapi==0.135.3
+uvicorn==0.42.0
+pydantic==2.12.5
+
+# --- Config & auth ---
+python-dotenv==1.2.2
+PyYAML==6.0.3
+bcrypt==5.0.0

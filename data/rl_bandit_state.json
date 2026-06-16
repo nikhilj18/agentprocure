@@ -1,0 +1,32 @@
+{
+  "0": {
+    "pulls": 5,
+    "rewards": 2.0,
+    "avg_reward": 0.4
+  },
+  "1": {
+    "pulls": 5,
+    "rewards": 0.0,
+    "avg_reward": 0.0
+  },
+  "2": {
+    "pulls": 5,
+    "rewards": 2.0,
+    "avg_reward": 0.4
+  },
+  "3": {
+    "pulls": 7,
+    "rewards": 3.0,
+    "avg_reward": 0.42857142857142855
+  },
+  "4": {
+    "pulls": 3,
+    "rewards": 2.0,
+    "avg_reward": 0.6666666666666666
+  },
+  "5": {
+    "pulls": 95,
+    "rewards": 73.0,
+    "avg_reward": 0.7684210526315789
+  }
+}
