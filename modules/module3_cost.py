@@ -234,6 +234,47 @@ def forecast_price_arima(price_series, steps=3):
 
 
 # ─────────────────────────────────────────────
+# STEP 3b: FORECAST ACCURACY — ARIMA BACKTEST (MAPE)
+# ─────────────────────────────────────────────
+def backtest_arima_mape(price_series, holdout=3):
+    """
+    Walk-forward backtest: hold out the last `holdout` observations,
+    forecast them from the earlier history only, and return the
+    Mean Absolute Percentage Error (MAPE, in %).
+
+    Returns None when there isn't enough data to both train and test.
+    """
+    series = [float(x) for x in price_series]
+    n = len(series)
+    if n < holdout + 4:          # need a usable training window + holdout
+        return None
+
+    train  = series[:-holdout]
+    actual = series[-holdout:]
+    forecast, _, _ = forecast_price_arima(train, steps=holdout)
+
+    errors = [abs((a - f) / a) for a, f in zip(actual, forecast) if a != 0]
+    if not errors:
+        return None
+    return round(float(np.mean(errors) * 100), 2)
+
+
+def evaluate_arima_accuracy(holdout=3):
+    """
+    Backtests ARIMA on each loaded FRED commodity series.
+    Returns ({commodity: mape_pct}, average_mape_pct).
+    """
+    results = {}
+    for name, df in _COMMODITY_PRICES.items():
+        if df is not None and not df.empty:
+            mape = backtest_arima_mape(df["value"].astype(float).tolist(), holdout)
+            if mape is not None:
+                results[name] = mape
+    avg = round(float(np.mean(list(results.values()))), 2) if results else None
+    return results, avg
+
+
+# ─────────────────────────────────────────────
 # STEP 4: ANOMALY DETECTION
 # ─────────────────────────────────────────────
 def check_price_anomaly(current_quote, forecast_price, threshold=0.15):
@@ -342,5 +383,15 @@ if __name__ == "__main__":
             ctx = r['commodity_context']
             print(f"    └─ index {ctx['current_index']:.3f} "
                   f"({ctx['trend']}) as of {ctx['last_date']}")
+
+    # Forecast accuracy backtest (MAPE) on the FRED commodity series
+    print(f"\n  ARIMA forecast accuracy (walk-forward backtest, 3-month holdout):")
+    mape_by_series, avg_mape = evaluate_arima_accuracy(holdout=3)
+    for name, mape in mape_by_series.items():
+        print(f"    {name:10s} MAPE: {mape:.2f}%")
+    if avg_mape is not None:
+        print(f"    {'AVERAGE':10s} MAPE: {avg_mape:.2f}%")
+    else:
+        print("    (not enough data to backtest)")
 
     print(f"\n✅ Module 3 with FRED integration complete!\n")

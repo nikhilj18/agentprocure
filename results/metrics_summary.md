@@ -31,6 +31,9 @@ Metrics from a representative end-to-end run on the sample BOM
 | Total BOM value | $3,466.54 |
 | Average landed cost / part | $19.3035 |
 | Price anomalies flagged | 0 |
+| ARIMA MAPE — copper (3-mo walk-forward backtest, 98 mo) | 13.74% |
+| ARIMA MAPE — aluminum (3-mo walk-forward backtest, 98 mo) | 7.00% |
+| ARIMA MAPE — average | 10.37% |
 
 ## Module 4 — Risk Assessment (SVM)
 | Metric | Value |
@@ -47,3 +50,5 @@ Metrics from a representative end-to-end run on the sample BOM
 | Scenarios | Balanced · Lowest Cost · Lowest Risk |
 | Parts sourced | 22 |
 | Swaps performed (balanced) | 2 |
+| Cost savings vs. baseline (cheapest vs. worst-case qualified supplier, sample BOM) | $1,427.44 (8.46%) |
+| Baseline / optimized landed total | $16,870.64 / $15,443.20 |

@@ -305,6 +305,64 @@ def generate_pareto_scenarios(classified_bom):
 
 
 # ─────────────────────────────────────────────
+# STEP 4b: COST SAVINGS VS. BASELINE
+# ─────────────────────────────────────────────
+def compute_cost_savings_vs_baseline(classified_bom):
+    """
+    Measures cost-optimization headroom. For each valid BOM line, uses
+    Module 3's real landed costs to compare:
+      - optimized: cheapest qualified supplier
+      - baseline:  most expensive qualified supplier (naive / worst case)
+
+    Returns a dict with baseline_total, optimized_total, savings, and
+    savings_pct. When a part has only one qualified supplier there is no
+    headroom for that line, so savings reflects only parts with choice.
+    """
+    metrics_df, _, _ = cluster_suppliers(build_supplier_metrics())
+
+    baseline_total  = 0.0
+    optimized_total = 0.0
+    lines_with_choice = 0
+
+    for _, row in classified_bom.iterrows():
+        if row.get('validation_status') != 'Valid':
+            continue
+
+        pno = row['part_no']
+        qty = int(row.get('quantity_required', 1))
+        cls = row['component_class']
+
+        top = rank_suppliers_for_part(pno, cls, metrics_df)
+        if top.empty:
+            continue
+
+        landed_costs = []
+        for _, sup in top.iterrows():
+            res = analyze_cost_for_part(
+                pno, int(sup['supplier_id']), sup['country'], qty, cls)
+            landed_costs.append(float(res['landed_cost']))
+
+        if not landed_costs:
+            continue
+
+        if len({round(c, 6) for c in landed_costs}) > 1:
+            lines_with_choice += 1
+
+        optimized_total += min(landed_costs) * qty
+        baseline_total  += max(landed_costs) * qty
+
+    savings = round(baseline_total - optimized_total, 2)
+    pct     = round((savings / baseline_total * 100), 2) if baseline_total else 0.0
+    return {
+        'baseline_total':    round(baseline_total, 2),
+        'optimized_total':   round(optimized_total, 2),
+        'savings':           savings,
+        'savings_pct':       pct,
+        'lines_with_choice': lines_with_choice,
+    }
+
+
+# ─────────────────────────────────────────────
 # STEP 5: PRINT FINAL RECOMMENDATION TABLE
 # ─────────────────────────────────────────────
 def print_recommendations(recs, scenario_name, swap_log):
@@ -382,6 +440,16 @@ if __name__ == "__main__":
     for name, data in scenarios.items():
         print(f"  {name:<15} ${data['total_value']:>11.2f} "
               f"{data['avg_risk']:>9.1f}/100")
+
+    # Cost savings vs. baseline
+    print(f"\n{'='*50}")
+    print(f"  💰 Cost Savings vs. Baseline")
+    print(f"{'='*50}")
+    cs = compute_cost_savings_vs_baseline(classified)
+    print(f"  Baseline (worst-case) total : ${cs['baseline_total']:,.2f}")
+    print(f"  Optimized (cheapest) total  : ${cs['optimized_total']:,.2f}")
+    print(f"  Savings                     : ${cs['savings']:,.2f} ({cs['savings_pct']:.2f}%)")
+    print(f"  Lines with supplier choice  : {cs['lines_with_choice']}")
 
     print(f"\n✅ Module 5 complete! All ML modules done.")
     print(f"   Next: Build the Streamlit dashboard.\n")

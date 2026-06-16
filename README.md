@@ -79,6 +79,8 @@ Top drivers: `unit_cost_avg`, then `category_enc`.
 |---|---|
 | Random Forest classification accuracy | 93% |
 | SVM risk model accuracy (in-sample) | 95.9% |
+| ARIMA forecast error (MAPE, 3-mo backtest) | 10.4% avg (copper 13.7% · aluminum 7.0%) |
+| Cost savings vs. baseline sourcing (sample BOM) | $1,427 (8.5%) |
 | Avg landed cost per part | $19.30 |
 | Total BOM value (sample run) | $3,466.54 |
 | Avg supply-risk score | 45.7 / 100 |
