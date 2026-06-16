@@ -35,6 +35,7 @@ Metrics from a representative end-to-end run on the sample BOM
 ## Module 4 — Risk Assessment (SVM)
 | Metric | Value |
 |---|---|
+| SVM classifier accuracy (in-sample) | 95.9% |
 | Average risk score | 45.7 / 100 |
 | High-risk parts | 2 |
 | Medium-risk parts | 20 |

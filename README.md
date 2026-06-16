@@ -78,12 +78,11 @@ Top drivers: `unit_cost_avg`, then `category_enc`.
 | Metric | Value |
 |---|---|
 | Random Forest classification accuracy | 93% |
-| SVM risk model accuracy | [INSERT METRIC] |
+| SVM risk model accuracy (in-sample) | 95.9% |
 | Avg landed cost per part | $19.30 |
 | Total BOM value (sample run) | $3,466.54 |
 | Avg supply-risk score | 45.7 / 100 |
-| Cost savings vs. baseline sourcing | [INSERT METRIC] |
-| ARIMA forecast error (MAPE) | [INSERT METRIC] |
+| Parts sourced / supplier swaps (balanced) | 22 / 2 |
 
 ---
 
